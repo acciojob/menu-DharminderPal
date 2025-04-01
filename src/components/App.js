@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const MENU_DATA = [
   {
@@ -24,7 +24,7 @@ const MENU_DATA = [
     category: "shakes",
     price: 6.99,
     img: "./images/item-3.jpeg",
-    desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
+    desc: `kombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
   },
   {
     id: 4,
@@ -77,21 +77,26 @@ const MENU_DATA = [
 ];
 
 const Menu = () => {
-  const [list, setlist] = useState(MENU_DATA);
+  const [list, setList] = useState(MENU_DATA);
 
   const onFilter = (category) => {
-    if (category === "all") {
-      setlist(MENU_DATA);
-    } else {
-      const matches = MENU_DATA.filter((i) => i.category === category);
+    console.log(`Filtering for category: ${category}`); // Debugging log
 
-      setlist(matches);
+    if (category === "all") {
+      setList(MENU_DATA);
+    } else {
+      const matches = MENU_DATA.filter(
+        (item) => item.category.toLowerCase() === category.toLowerCase()
+      );
+      setList(matches);
     }
   };
+
   return (
     <div id="main">
       <h1>Our Menu</h1>
 
+      {/* Filter Buttons */}
       <div>
         <button id="filter-btn-0" onClick={() => onFilter("all")}>
           All
@@ -107,27 +112,22 @@ const Menu = () => {
         </button>
       </div>
 
+      {/* Menu List */}
       <div>
-        {list.map((i) => (
+        {list.map((item) => (
           <div
-            data-test-id={
-              i.category === "breakfast"
-                ? "menu-item-breakfast"
-                : i.category === "lunch"
-                ? "menu-item-lunch"
-                : "menu-item-shakes"
-            }
-            key={i.id}
+            data-test-id={`menu-item-${item.category.toLowerCase()}`}
+            key={item.id}
           >
             <div>
-              <img src={i.img} alt={i.title} />
+              <img src={item.img} alt={item.title} />
             </div>
             <div>
               <div>
-                <span>{i.title}</span>
-                <span>{i.price}</span>
+                <span>{item.title}</span>
+                <span>{item.price}</span>
               </div>
-              <div>{i.desc}</div>
+              <div>{item.desc}</div>
             </div>
           </div>
         ))}
