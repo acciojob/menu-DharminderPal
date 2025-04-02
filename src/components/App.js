@@ -1,5 +1,5 @@
 import React from "react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const MENU_DATA = [
   {
@@ -24,7 +24,7 @@ const MENU_DATA = [
     category: "shakes",
     price: 6.99,
     img: "./images/item-3.jpeg",
-    desc: `kombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
+    desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
   },
   {
     id: 4,
@@ -77,26 +77,21 @@ const MENU_DATA = [
 ];
 
 const Menu = () => {
-  const [list, setList] = useState(MENU_DATA);
+  const [list, setlist] = useState(MENU_DATA);
 
   const onFilter = (category) => {
-    console.log(`Filtering for category: ${category}`); // Debugging log
-
     if (category === "all") {
-      setList(MENU_DATA);
+      setlist(MENU_DATA);
     } else {
-      const matches = MENU_DATA.filter(
-        (item) => item.category.toLowerCase() === category.toLowerCase()
-      );
-      setList(matches);
+      const matches = MENU_DATA.filter((i) => i.category === category);
+
+      setlist(matches);
     }
   };
-
   return (
     <div id="main">
       <h1>Our Menu</h1>
 
-      {/* Filter Buttons */}
       <div>
         <button id="filter-btn-0" onClick={() => onFilter("all")}>
           All
@@ -112,22 +107,27 @@ const Menu = () => {
         </button>
       </div>
 
-      {/* Menu List */}
       <div>
-        {list.map((item) => (
+        {list.map((i) => (
           <div
-            data-test-id={`menu-item-${item.category.toLowerCase()}`}
-            key={item.id}
+            data-test-id={
+              i.category === "breakfast"
+                ? "menu-item-breakfast"
+                : i.category === "lunch"
+                ? "menu-item-lunch"
+                : "menu-item-shakes"
+            }
+            key={i.id}
           >
             <div>
-              <img src={item.img} alt={item.title} />
+              <img src={i.img} alt={i.title} />
             </div>
             <div>
               <div>
-                <span>{item.title}</span>
-                <span>{item.price}</span>
+                <span>{i.title}</span>
+                <span>{i.price}</span>
               </div>
-              <div>{item.desc}</div>
+              <div>{i.desc}</div>
             </div>
           </div>
         ))}
